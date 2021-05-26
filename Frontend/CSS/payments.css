@@ -122,3 +122,9 @@ span {
   margin-bottom: 50px;
   width: 100%;
 }
+.u-img {
+  overflow-x: scroll;
+}
+.u-img::-webkit-scrollbar {
+  display: none;
+}

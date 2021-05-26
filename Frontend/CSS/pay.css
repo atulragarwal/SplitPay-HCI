@@ -27,3 +27,9 @@
   display: inline-block;
   font-size: 20px;
 }
+.u-img {
+  overflow-x: scroll;
+}
+.u-img::-webkit-scrollbar {
+  display: none;
+}
