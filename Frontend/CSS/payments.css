@@ -9,6 +9,12 @@
   border-radius: 20px;
   height: 250px;
 }
+.u-img {
+  overflow-x: scroll;
+}
+.u-img::-webkit-scrollbar {
+  display: none;
+}
 .card-left {
   width: 45%;
   margin-left: 20px;
@@ -85,7 +91,7 @@
   background-color: #f2f2f2;
 }
 .bottomNav {
-  width: 25%;
+  width: 35%;
   background-color: white;
   padding-bottom: 0;
   /* margin-top: 50px; */

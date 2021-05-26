@@ -15,6 +15,12 @@
             .b-body{
                 margin-top: 200px;
             }
+            form{
+                width: 80%;
+            }
+            .userPassword{
+                width:48%;
+            }
         </style>
     </head>
     <body>
@@ -22,20 +28,19 @@
             <div class="b-body">
                 <h3>Welcome!</h3>
                 <h4>Let's get you started</h4>
-                <div class="u-nav">
-                    <a href="#">Basic Details</a>
-                    <a href="#">Add Security</a>
-                    <a href="#">Add Funds</a>
-                </div>
                 <form>
                     <label for="u-name">Your Full Name</label><br>
                     <input id="u-name" required placeholder="John Doe" type="text"><br>
                     <label for="u-num">Your Phone Number</label><br>
-                    <input id="u-num" required placeholder="XXXXX XXXXX" type="tel" pattern="[0-9]{5}-[0-9]{5}"><br>
-                    <a href="#">Forgot Password</a>
+                    <input id="u-num" required placeholder="XXXXX XXXXX" type="tel" pattern="[0-9]{10}"><br>
+                    <label for="u-email">Your Email</label><br>
+                    <input id="u-email" required placeholder="xyz@xyz.com" type="email"><br>
+                    <input class="userPassword" id="u-pass" required placeholder="Password" type="password">
+                    <input class="userPassword" id="u-pass-1" required placeholder="Confirm Password" type="password">
+                    <!-- <a href="#">Forgot Password</a> -->
                     <input id="i-sub" type="submit" value="Continue">
                 </form>
-                <a href="#">Click Here to Log In</a>
+                <a href="login.html">Click Here to Log In</a>
             </div>
         </div>
     </body>
