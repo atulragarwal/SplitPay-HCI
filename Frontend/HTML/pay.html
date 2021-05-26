@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>SplitPay</title>
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link rel="Stylesheet" href="../CSS/login.css">
+        <link rel="stylesheet" href="../CSS/payments.css">
+        <link rel="stylesheet" href="../CSS/pay.css">
+        <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
+        <script src="https://kit.fontawesome.com/bc6f27e589.js" crossorigin="anonymous"></script>
+        <script>
+            $(document).ready(function(){
+                $(".s-new").slideToggle("fast");
+                $("#cat").hover(function(){
+                    $("#cat").css('cursor','pointer');
+                })
+                $("#cat").click(function(){
+                    $(".s-new").slideToggle("slow");
+                });
+            });
+        </script>
+    </head>
+    <body>
+        <div class="m-container">
+            <div class="b-head">
+                <i class="fas fa-arrow-left"></i><i style="float: right; margin-right: 10px;" class="far fa-question-circle"></i><br>
+                <h3>Now Paying<br>Tanmay</h3>
+            </div>
+            <div class="paymentForm">
+                <form>
+                    <label for="paymentAmt">Enter Amount</label><br>
+                    <input class="amtInput" type="number" required placeholder="Rs.XX.XX">
+                    <p id="splitOption">Splitting this payment</p>
+                    <i onclick="" style="margin-left: 80px;" class="fas fa-user-plus"></i>
+                    <div class="u-img">
+                        <div class="freq-cont">
+                            <img src="../Images/atul_260x261.jpeg" class="userImage">
+                            <p class="userName">Atul</p>
+                        </div>
+                        <div class="freq-cont">
+                            <img src="../Images/atul_260x261.jpeg" class="userImage">
+                            <p class="userName">Atul</p>
+                        </div>
+                        <div class="freq-cont">
+                            <img src="../Images/atul_260x261.jpeg" class="userImage">
+                            <p class="userName">Atul</p>
+                        </div>
+                        <div class="freq-cont">
+                            <img src="../Images/atul_260x261.jpeg" class="userImage">
+                            <p class="userName">Atul</p>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="bottomNav">
+                <div class="paymentOption">
+                    <i class="fas fa-money-bill-wave-alt"></i>
+                    <p>Payments</p>
+                </div>
+                <div class="paymentOption">
+                    <i class="fas fa-chart-pie"></i>
+                    <p>Splits</p>
+                </div>
+                <div class="paymentOption">
+                    <i class="fas fa-cog"></i>
+                    <p>Settings</p>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
