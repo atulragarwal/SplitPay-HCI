@@ -3,26 +3,34 @@
     <head>
         <title>SplitPay</title>
         <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link rel="icon" type="image" href="../Images/icon.jpg">
         <link rel="Stylesheet" href="../CSS/login.css">
         <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans&display=swap" rel="stylesheet">
+        <style>
+            .m-container{
+                background-image: url(../Images/loginbg.jpeg);
+                background-repeat: no-repeat;
+                background-size: cover;
+            }
+            .b-body{
+                margin-top: 200px;
+            }
+        </style>
     </head>
     <body>
         <div class="m-container">
-            <div class="b-head">
-                <h3>SplitPay</h3>
-            </div>
             <div class="b-body">
                 <h3>Welcome Back!</h3>
                 <h4>Log in to jump back in</h4>
                 <form>
-                    <label for="u-num">Your Phone Number</label><br>
-                    <input id="u-num" required placeholder="XXXXX XXXXX" type="tel" pattern="[0-9]{5}-[0-9]{5}"><br>
+                    <label for="u-email">Your Email</label><br>
+                    <input id="u-email" required placeholder="xyz@xyz.com" type="email"><br>
                     <label for="u-pass">Your Phone Number</label><br>
                     <input id="u-pass" placeholder="Password" required type="password"><br>
-                    <a href="#">Forgot Password</a>
+                    <!-- <a href="#">Forgot Password</a> -->
                     <input id="i-sub" type="submit" value="Continue">
                 </form>
-                <a href="#">Click Here to Sign Up</a>
+                <a href="signup.html">Click Here to Sign Up</a>
             </div>
         </div>
     </body>

@@ -4,20 +4,22 @@
         <title>SplitPay</title>
         <link rel="preconnect" href="https://fonts.gstatic.com">
         <link rel="Stylesheet" href="../CSS/login.css">
+        <link rel="icon" type="image" href="../Images/icon.jpg">
         <link rel="stylesheet" href="../CSS/payments.css">
         <link rel="stylesheet" href="../CSS/pay.css">
         <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
         <script src="https://kit.fontawesome.com/bc6f27e589.js" crossorigin="anonymous"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script>
             $(document).ready(function(){
-                $(".s-new").slideToggle("fast");
-                $("#cat").hover(function(){
-                    $("#cat").css('cursor','pointer');
+                $(".hiddenToggle").slideToggle("fast");
+                $(".fa-user-plus").hover(function(){
+                    $(".fa-user-plus").css('cursor','pointer');
                 })
-                $("#cat").click(function(){
-                    $(".s-new").slideToggle("slow");
+                $(".fa-user-plus").click(function(){
+                    $(".hiddenToggle").slideToggle("slow");
                 });
             });
         </script>
@@ -33,25 +35,40 @@
                     <label for="paymentAmt">Enter Amount</label><br>
                     <input class="amtInput" type="number" required placeholder="Rs.XX.XX">
                     <p id="splitOption">Splitting this payment</p>
-                    <i onclick="" style="margin-left: 80px;" class="fas fa-user-plus"></i>
+                    <i style="margin-left: 80px;" class="fas fa-user-plus"></i>
+                    <div class="hiddenToggle">
                     <div class="u-img">
                         <div class="freq-cont">
-                            <img src="../Images/atul_260x261.jpeg" class="userImage">
-                            <p class="userName">Atul</p>
+                            <label onclick="addSelect('userImg-1','freqCheck-1')" for="freqCheck-1">
+                                <img id="userImg-1" src="../Images/atul_260x261.jpeg" class="userImage">
+                                <p class="userName">Atul</p>
+                            </label>
+                            <input type="checkbox" name="splitFreq" id="freqCheck-1" style="display: none;">
                         </div>
                         <div class="freq-cont">
-                            <img src="../Images/atul_260x261.jpeg" class="userImage">
-                            <p class="userName">Atul</p>
+                            <label onclick="addSelect('userImg-2', 'freqCheck-2')" for="freqCheck-2">
+                                <img id="userImg-2" src="../Images/atul_260x261.jpeg" class="userImage">
+                                <p class="userName">Atul</p>
+                            </label>
+                            <input type="checkbox" name="splitFreq" id="freqCheck-2" style="display: none;">
                         </div>
                         <div class="freq-cont">
-                            <img src="../Images/atul_260x261.jpeg" class="userImage">
-                            <p class="userName">Atul</p>
+                            <label onclick="addSelect('userImg-3', 'freqCheck-3')" for="freqCheck-3">
+                                <img id="userImg-3" src="../Images/atul_260x261.jpeg" class="userImage">
+                                <p class="userName">Atul</p>
+                            </label>
+                            <input type="checkbox" name="splitFreq" id="freqCheck-3" style="display: none;">
                         </div>
                         <div class="freq-cont">
-                            <img src="../Images/atul_260x261.jpeg" class="userImage">
-                            <p class="userName">Atul</p>
+                            <label onclick="addSelect('userImg-4', 'freqCheck-4')" for="freqCheck-4">
+                                <img id="userImg-4" src="../Images/atul_260x261.jpeg" class="userImage">
+                                <p class="userName">Atul</p>
+                            </label>
+                            <input type="checkbox" name="splitFreq" id="freqCheck-4" style="display: none;">
                         </div>
                     </div>
+                    </div>
+                    <input value="Pay" type="submit">
                 </form>
             </div>
             <div class="bottomNav">
@@ -69,5 +86,15 @@
                 </div>
             </div>
         </div>
+        <script>
+            function addSelect(imgTag, checkTag){
+                if(document.getElementById(checkTag).checked){
+                    document.getElementById(imgTag).style.borderColor = "green";
+                }
+                else{
+                    document.getElementById(imgTag).style.borderColor = '#5c07db';
+                }
+            };
+        </script>
     </body>
 </html>
