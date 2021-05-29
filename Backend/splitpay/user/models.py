@@ -9,7 +9,7 @@ class User(AbstractBaseUser):
     username = None
     email = models.EmailField(_('email address'), unique=True)
     name = models.CharField(max_length=100)
-    phone_number = models.CharField(max_length=10)
+    phone_number = models.CharField(max_length=10, unique=True)
     balance = models.IntegerField(default=0)
 
     USERNAME_FIELD = 'email'

@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'corsheaders',
 
     'user',
+    'transaction',
 ]
 
 MIDDLEWARE = [
@@ -83,11 +84,8 @@ WSGI_APPLICATION = 'splitpay.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'SplitPay',
-        'USER': 'postgres',
-        'PASSWORD': '1234',
-        'HOST':'localhost',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
 
