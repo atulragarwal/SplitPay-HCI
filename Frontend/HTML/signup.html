@@ -28,7 +28,9 @@
             <div class="b-body">
                 <h3>Welcome!</h3>
                 <h4>Let's get you started</h4>
-                <form>
+                <h3 id="errorMessage" style="color: red;display: none;">It looks like this email is taken.</h3>
+                <h3 id="errorMessage-1" style="display: none;">Try <a href="login.html">Logging In</a></h3>
+                <form onsubmit="return createUser()" action="login.html" id="form">
                     <label for="u-name">Your Full Name</label><br>
                     <input id="u-name" required placeholder="John Doe" type="text"><br>
                     <label for="u-num">Your Phone Number</label><br>
@@ -38,10 +40,63 @@
                     <input class="userPassword" id="u-pass" required placeholder="Password" type="password">
                     <input class="userPassword" id="u-pass-1" required placeholder="Confirm Password" type="password">
                     <!-- <a href="#">Forgot Password</a> -->
-                    <input id="i-sub" type="submit" value="Continue">
+                    <input type="submit" value="Continue">
                 </form>
                 <a href="login.html">Click Here to Log In</a>
             </div>
         </div>
+        <script>
+            document.getElementById('form').addEventListener('submit', (e) =>{
+                e.preventDefault();
+            })
+            function createUser()
+            {
+                var userName = document.getElementById('u-name').value;
+                var userNumber = document.getElementById('u-num').value;
+                var userEmail = document.getElementById('u-email').value;
+                var userPassword = document.getElementById('u-pass').value;
+                var passwordConfirm = document.getElementById('u-pass-1').value;
+                fetch('http://127.0.0.1:8000/auth/djoser/users/',{
+                // mode:'no-cors',
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'User-Agent': 'PostmanRuntime/7.28.0'
+                },
+                body: JSON.stringify({
+                    "email": userEmail,
+                    "password": userPassword,
+                    "re_password": passwordConfirm,
+                    "phone_number": userNumber,
+                    "name": userName
+                })
+            }).then(res =>{
+                return res.json();
+            })
+            .then(data => {
+                // if(data.email[0]==="user with this email address already exists."){
+                //     alert("Email Already Taken");
+                // }
+                // else if(data.phone_number[0]==="Ensure this field has no more than 10 characters."){
+                //     alert("Phone Number Must be 10 Digits!");
+                // }
+                // else if(data.password[0]==="This password is too short. It must contain at least 8 characters."){
+                //     alert("This password is too short. It must contain at least 8 characters.");
+                // }
+                // else if(data.password[0]==="The password is too similar to the email address."){
+                //     alert("The password is too similar to the email address.");
+                // }
+                if(data.id > 0)
+                {
+                    window.location.href = 'http://127.0.0.1:5500/Frontend/HTML/login.html';
+
+                }
+                console.log(data);})
+            .catch(error => {
+                console.log('error'+error);
+            })
+            }
+
+        </script>
     </body>
 </html>

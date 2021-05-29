@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>SplitPay</title>
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link rel="Stylesheet" href="../CSS/login.css">
+        <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans&display=swap" rel="stylesheet">
+        <link rel="icon" type="image" href="../Images/icon.jpg">
+        <style>
+            .b-body{
+                margin-top: 50px;
+            }
+            h3{
+                margin: 0;
+                padding: 0;
+            }
+            p{
+                margin: 0;
+            }
+            a{
+                text-align: center;
+                color: white;
+                width: 100px;
+                background-color: #5c07db;
+                padding: 5px;
+                border: 3px solid #5c07db;
+                border-radius: 5px;
+            }
+        </style>
+        <script>
+            async function postData(url = '', data = {}) {
+                // Default options are marked with *
+                const response = await fetch(url, {
+                    method: 'POST', // *GET, POST, PUT, DELETE, etc.
+                    mode: 'no-cors', // no-cors, *cors, same-origin
+                    cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+                    credentials: 'same-origin', // include, *same-origin, omit
+                    headers: {
+                    'Content-Type': 'application/json'
+                    // 'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    redirect: 'follow', // manual, *follow, error
+                    referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+                    body: JSON.stringify(data) // body data type must match "Content-Type" header
+                });
+                return response.json(); // parses JSON response into native JavaScript objects
+                }
+
+                postData('https://securegw-stage.paytm.in/paymentservices/qr/create', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                head:{
+                    clientId: 'C11',
+                    version: 'v1',
+                },
+                body: JSON.stringify({
+                    mid: 'qxF6CUn1erm2o#p7',
+                    orderId: "OREDRID98765",
+                    amount: "1303.00",
+                    businessType: "UPI_QR_CODE",
+                    posId: 'S12_123',
+                })
+            })
+                .then(data => {
+                    console.log(data); // JSON data parsed by `data.json()` call
+                });
+            // fetch('https://securegw-stage.paytm.in/paymentservices/qr/create',{
+            //     method: 'POST',
+            //     headers: {
+            //         'Content-Type': 'application/json',
+            //     },
+            //     head:{
+            //         clientId: 'C11',
+            //         version: 'v1',
+            //     },
+            //     body: JSON.stringify({
+            //         mid: '{mid}',
+            //         orderId: "OREDRID98765",
+            //         amount: "1303.00",
+            //         businessType: "UPI_QR_CODE",
+            //         posId: 'S12_123',
+            //     })
+            // }).then(res =>{
+            //     return res.json()
+            // })
+            // .then(data => console.log(data))
+            // .catch(error => console.log(error.resultCode))
+
+        </script>
+    </head>
+    <body>
+        <div class="m-container">
+            <div class="b-body">
+                
+                <img src="https://api.qrserver.com/v1/create-qr-code/?data=8879728598@paytm&amp;" alt="" title="" />
+                <h4 >Scan to get UPI Id</h4>
+                <h3>Rs. 35.0</h3>
+                <p>Paid to</p>
+                <h3>Tanmay</h3>
+                <a href="#">Done</a> 
+            </div>
+        </div>
+    </body>
+</html>

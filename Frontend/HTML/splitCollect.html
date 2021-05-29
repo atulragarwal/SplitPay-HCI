@@ -10,6 +10,20 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
         <script src="https://kit.fontawesome.com/bc6f27e589.js" crossorigin="anonymous"></script>
+        <style>
+            .u-card{
+                margin-top: 20px;
+                background-color: limegreen;
+                /* opacity: 0.8; */
+                text-align: center;
+                height: 80px;
+            }
+            .u-card > p{
+                margin-left: auto;
+                margin-right: auto;
+                margin-top: 20px;
+            }
+        </style>
     </head>
     <script>
         let tokenId = sessionStorage.getItem('userToken');
@@ -34,25 +48,15 @@
     <body>
         <div class="m-container">
             <div class="b-head">
-                <h3>Payments</h3>
+                <h3>Splits Collections</h3>
             </div>
             <div class="b-body">
                 <div class="u-card">
-                    <div class="card-left">
-                        <p class="card-title">Name</p>
-                        <p id="renderName" class="card-det">Atul Agarwal</p>
-                        <p class="card-title">Balance</p>
-                        <p id="renderBal" class="card-det"><i class="fas fa-rupee-sign"></i> 360.00</p>
-                    </div>
-                    <div class="card-right">
-                        <img width="100px" height="100px" src="https://api.qrserver.com/v1/create-qr-code/?data=8879728598@paytm&amp;">
-                        <p class="card-title">Your Qr Code</p>
-                    </div>
+                    <!-- <div class="card-left"> -->
+                        <p id="renderName" class="card-det">You Need to Collect <i class="fas fa-rupee-sign"></i> 100</p>
+                    <!-- </div> -->
                 </div>
-                <div>
-                <a href="#" class="payButton addButton">Add Money</a><a href="pay.html" class="payButton newButton">New Payment</a>
-                </div>
-                <h3>Frequent Contacts</h3>
+                <h3 style="float: left;">Active Splits</h3>
                 <div class="u-img">
                     <div class="freq-cont">
                         <img src="../Images/atul_260x261.jpeg" class="userImage">
@@ -71,7 +75,7 @@
                         <p class="userName">Atul</p>
                     </div>
                 </div>
-                <h3>Recent Transactions</h3>
+                <h3>All Splits</h3>
                 <span>
                 <div class="recTrans">
                     <img src="../Images/atul_260x261.jpeg" class="userImage"><p style="vertical-align:top;margin-left: 10px;">Atul</p><p style="vertical-align:top;float: right;">-35.00</p>
