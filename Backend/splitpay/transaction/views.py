@@ -23,7 +23,7 @@ import operator
 #403 200
 
 
-@api_view(['GET'])
+@api_view(['POST'])
 @permission_classes((IsAuthenticated, ))
 @parser_classes([JSONParser])
 def payment(request):
@@ -82,7 +82,7 @@ def payment(request):
             },status=402)
 
 
-@api_view(['GET'])
+@api_view(['POST'])
 @permission_classes((IsAuthenticated, ))
 @parser_classes([JSONParser])
 def splitpayment(request):

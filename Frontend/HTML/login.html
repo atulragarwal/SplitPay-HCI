@@ -22,7 +22,7 @@
             <div class="b-body">
                 <h3>Welcome Back!</h3>
                 <h4>Log in to jump back in</h4>
-                <form id="form" onsubmit="return validateUser()">
+                <form id="form" action="home.html" onsubmit="return validateUser()">
                     <label for="u-email">Your Email</label><br>
                     <input id="u-email" required placeholder="xyz@xyz.com" type="email"><br>
                     <label for="u-pass">Your Phone Number</label><br>
@@ -39,6 +39,9 @@
             })
             function validateUser()
             {
+                document.getElementById('form').addEventListener('submit', (e) =>{
+                e.preventDefault();
+                });
                 let userId = document.getElementById("u-email").value;
                 let userPassword = document.getElementById("u-pass").value;
                 fetch('http://127.0.0.1:8000/auth/djoser/token/login/',{

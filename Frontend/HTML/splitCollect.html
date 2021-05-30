@@ -28,22 +28,22 @@
     <script>
         let tokenId = sessionStorage.getItem('userToken');
         console.log('Token '+tokenId)
-        fetch('http://127.0.0.1:8000/auth/djoser/users/me/',{
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'User-Agent': 'PostmanRuntime/7.28.0',
-                'Authorization': 'Token '+tokenId
-            },
-        }).then(res =>{
-            return res.json()
-        })
-        .then(data => {
-            console.log(data);
-            document.getElementById('renderName').innerHTML = data.name;
-            document.getElementById('renderBal').innerHTML = data.balance;
-        })
-        .catch(error => console.log('Error'))
+        // fetch('http://127.0.0.1:8000/auth/djoser/users/me/',{
+        //     method: 'GET',
+        //     headers: {
+        //         'Content-Type': 'application/json',
+        //         'User-Agent': 'PostmanRuntime/7.28.0',
+        //         'Authorization': 'Token '+tokenId
+        //     },
+        // }).then(res =>{
+        //     return res.json()
+        // })
+        // .then(data => {
+        //     console.log(data);
+        //     document.getElementById('renderName').innerHTML = data.name;
+        //     document.getElementById('renderBal').innerHTML = data.balance;
+        // })
+        // .catch(error => console.log('Error'))
     </script>
     <body>
         <div class="m-container">

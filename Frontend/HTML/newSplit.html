@@ -1,3 +1,20 @@
+<!-- <script>
+
+    var splitUsers = [];
+    function addUser(){
+        let userNum = document.getElementById('numberAdd').value;
+        splitUsers.push(userNum);
+        document.getElementById('numDisplay').innerHTML = "";
+        splitUsers.forEach(element =>{
+            document.getElementById('numDisplay').innerHTML += element+'<br>';
+        })
+    }
+
+    if(splitUsers.length>0){
+
+    }
+</script> -->
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -34,8 +51,6 @@
             <div class="paymentForm">
                 <form onsubmit="return createPayment()" action="home.html" id="paymentDetailsForm">
 
-                    <label for="payeeNumber">Enter Phone Number:</label><br>
-                    <input class = "amtInput" id="payeeNumber" type="tel" required placeholder="XXXXX XXXXX"><br><br>
                     <label for="paymentAmt">Enter Amount</label><br>
                     <input class="amtInput" id="paymentAmt" type="number" required placeholder="Rs.XX.XX"><br><br>
                     <label for="paymentNote">Enter Note</label><br>
@@ -45,7 +60,7 @@
                     <div class="hiddenToggle">
                     <label for="numberAdd">Enter Number:</label>
                     <input type="tel" placeholder="Split with" id="numberAdd" class="amtInput">
-                    <button style="font-size: 25px;" onclick="addUser()">Add</button>
+                    <span style="font-size: 25px;" onclick="addUser()">Add</span>
                     <p id="numDisplay"></p>
                     </div>
                     <input value="Pay" type="submit">
@@ -66,27 +81,26 @@
                 </div>
             </div>
         </div>
+        
         <script>
 
+
             var splitUsers = [];
-            function addSelect(imgTag, checkTag){
-                if(document.getElementById(checkTag).checked){
-                    document.getElementById(imgTag).style.borderColor = "green";
-                }
-                else{
-                    document.getElementById(imgTag).style.borderColor = '#5c07db';
-                }
-            };
             function addUser(){
+                document.getElementById('paymentDetailsForm').addEventListener('submit', (e) =>{
+                e.preventDefault();
+                });
                 let userNum = document.getElementById('numberAdd').value;
                 splitUsers.push(userNum);
                 document.getElementById('numDisplay').innerHTML = "";
+                // userNum.value = "";
                 splitUsers.forEach(element =>{
                     document.getElementById('numDisplay').innerHTML += element+'<br>';
                 })
             }
-        </script>
-        <script>
+
+
+
 
             let tokenId = sessionStorage.getItem('userToken');
             console.log('Token '+tokenId);
@@ -99,10 +113,9 @@
                 e.preventDefault();
             });
             let payAmt = document.getElementById("paymentAmt").value;
-            let payReceiver = document.getElementById('payeeNumber').value;
             let payNote = document.getElementById('paymentNote').value;
 
-            fetch('http://127.0.0.1:8000/splitpay/payment/',{
+            fetch('http://127.0.0.1:8000/splitpay/splitpayment/',{
                 // mode:'no-cors',
                 method: 'POST',
                 headers: {
@@ -113,18 +126,13 @@
                 body: JSON.stringify({
                     "amount": parseInt(payAmt),
                     "reason": payNote,
-                    "payee": payReceiver
+                    "payee": splitUsers
                 })
             }).then(res =>{
                 return res.json();
             })
             .then(data => {
-                // if(data.id > 0)
-                // {
-                //     window.location.href = 'http://127.0.0.1:5500/Frontend/HTML/login.html';
-
-                // }
-                window.location.href = 'http://127.0.0.1:5500/Frontend/HTML/login.html';
+                window.location.href = 'http://127.0.0.1:5500/Frontend/HTML/home.html';
                 console.log(data);})
             .catch(error => {
                 console.log('error'+error);

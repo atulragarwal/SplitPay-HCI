@@ -14,6 +14,8 @@
     <script>
         let tokenId = sessionStorage.getItem('userToken');
         console.log('Token '+tokenId)
+
+        //fetching user details
         fetch('http://127.0.0.1:8000/auth/djoser/users/me/',{
             method: 'GET',
             headers: {
@@ -28,8 +30,52 @@
             console.log(data);
             document.getElementById('renderName').innerHTML = data.name;
             document.getElementById('renderBal').innerHTML = data.balance;
+            let qrId = "https://api.qrserver.com/v1/create-qr-code/?data="+data.phone_number+"@paytm&amp;";
+            document.getElementById('userQr').src = qrId;
         })
         .catch(error => console.log('Error'))
+
+
+        //fetching frequent transactions
+        fetch('http://127.0.0.1:8000/splitpay/recenttransaction/',{
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'User-Agent': 'PostmanRuntime/7.28.0',
+                'Authorization': 'Token '+tokenId
+            },
+        }).then(res =>{
+            return res.json()
+        })
+        .then(recentTrans => {
+            console.log(recentTrans);
+            if(recentTrans.length == 0){
+                document.getElementById('historyRender').innerHTML = "No recent Transactions";
+            }
+            else{
+
+                var tryOut = [{amount: 50,
+created_at: "2021-05-30T10:13:35.611053Z",
+id: "4c92fb7e-9dd8-4879-a2e3-1a10b367a2eb",
+payee: 3,
+payer: 4,
+reason: "Fee",}, {amount: 51,
+created_at: "2021-05-30T10:13:35.611053Z",
+id: "4c92fb7e-9dd8-4879-a2e3-1a10b367a2eb",
+payee: 3,
+payer: 4,
+reason: "Fee",}];
+                var nameDisplay =  document.getElementById('displayTable');
+                var amtDisplay = document.getElementById('payAmt');
+                tryOut.forEach(element => {
+                        console.log(element);
+                        nameDisplay.innerHTML += '<tr>'+'<td>'+element.payee+'</td>'+'<td>'+element.amount+'</td>'+'</tr>';
+                });
+            }
+        })
+        .catch(transError => console.log('Error'+transError))
+
+
     </script>
     <body>
         <div class="m-container">
@@ -45,60 +91,33 @@
                         <p id="renderBal" class="card-det"><i class="fas fa-rupee-sign"></i> 360.00</p>
                     </div>
                     <div class="card-right">
-                        <img width="100px" height="100px" src="https://api.qrserver.com/v1/create-qr-code/?data=8879728598@paytm&amp;">
+                        <img id="userQr" width="100px" height="100px" src="">
                         <p class="card-title">Your Qr Code</p>
                     </div>
                 </div>
                 <div>
-                <a href="#" class="payButton addButton">Add Money</a><a href="pay.html" class="payButton newButton">New Payment</a>
-                </div>
-                <h3>Frequent Contacts</h3>
-                <div class="u-img">
-                    <div class="freq-cont">
-                        <img src="../Images/atul_260x261.jpeg" class="userImage">
-                        <p class="userName">Atul</p>
-                    </div>
-                    <div class="freq-cont">
-                        <img src="../Images/atul_260x261.jpeg" class="userImage">
-                        <p class="userName">Atul</p>
-                    </div>
-                    <div class="freq-cont">
-                        <img src="../Images/atul_260x261.jpeg" class="userImage">
-                        <p class="userName">Atul</p>
-                    </div>
-                    <div class="freq-cont">
-                        <img src="../Images/atul_260x261.jpeg" class="userImage">
-                        <p class="userName">Atul</p>
-                    </div>
+                <a href="newSplit.html" class="payButton addButton">Add Split</a><a href="pay.html" class="payButton newButton">New Payment</a>
                 </div>
                 <h3>Recent Transactions</h3>
-                <span>
+                <span id="historyRender">
                 <div class="recTrans">
-                    <img src="../Images/atul_260x261.jpeg" class="userImage"><p style="vertical-align:top;margin-left: 10px;">Atul</p><p style="vertical-align:top;float: right;">-35.00</p>
-                </div><hr>
-                <div class="recTrans">
-                    <img src="../Images/atul_260x261.jpeg" class="userImage"><p style="vertical-align:top;margin-left: 10px;">Atul</p><p style="vertical-align:top;float: right;">-35.00</p>
-                </div><hr>
-                <div class="recTrans">
-                    <img src="../Images/atul_260x261.jpeg" class="userImage"><p style="vertical-align:top;margin-left: 10px;">Atul</p><p style="vertical-align:top;float: right;">-35.00</p>
-                </div><hr>
-                <div class="recTrans">
-                    <img src="../Images/atul_260x261.jpeg" class="userImage"><p style="vertical-align:top;margin-left: 10px;">Atul</p><p style="vertical-align:top;float: right;">-35.00</p>
+                    <table id="displayTable">
+                    </table>
                 </div><hr>
             </span>
             </div>
             <div class="bottomNav">
                 <div class="paymentOption">
                     <i class="fas fa-money-bill-wave-alt"></i>
-                    <p>Payments</p>
+                    <p><a href="home.html">Payments</a></p>
                 </div>
                 <div class="paymentOption">
                     <i class="fas fa-chart-pie"></i>
-                    <p>Splits</p>
+                    <p><a href="splitCollect.html">Splits</a></p>
                 </div>
                 <div class="paymentOption">
                     <i class="fas fa-cog"></i>
-                    <p>Settings</p>
+                    <p><a href="userSettings.html">Settings</a></p>
                 </div>
             </div>
         </div>
