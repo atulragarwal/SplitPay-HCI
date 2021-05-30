@@ -23,24 +23,24 @@ import operator
 #404 201
 
 
-@api_view(['GET'])
+@api_view(['POST'])
 @permission_classes((IsAuthenticated, ))
 @parser_classes([JSONParser])
 def payment(request):
+
     data = request.data
     amount = data["amount"]
     if(amount<1):
         return Response({
                     'message': f'Amount has to be greater than 1'
                 },status=403) 
-    data["payer"] = request.user.id
+
     try:
         payee = User.objects.get(phone_number=data["payee"])
     except:
         return Response({
                     'message': f'User with the phone number {data["payee"]} does not exist'
                 },status=400) 
-    data["payee"] = payee.id
 
     if(payee.id== request.user.id):
         return Response({
@@ -49,30 +49,28 @@ def payment(request):
 
     serializer = TransactionSerializer(data=data)
     if serializer.is_valid():
-        serializer.save()
+        serializer.save(payer=request.user,payee=payee)
         flag=0
         try:
             debt = Debt.objects.get(user1=request.user.id,user2=payee.id)
             debt.amount_left+=amount
             debt.save()
-            print(debt.amount_left)
         except:
             flag+=1
         try:
             debt = Debt.objects.get(user1=payee.id,user2=request.user.id)
             debt.amount_left-=amount
             debt.save()
-            print(debt.amount_left)
         except:
             flag+=1
         if(flag==2):
             debt_data={}
             debt_data["amount_left"]=amount
-            debt_data["user1"]=request.user.id
-            debt_data["user2"]=payee.id
+            # debt_data["user1"]=request.user.id
+            # debt_data["user2"]=payee.id
             debt_serializer = DebtSerializer(data=debt_data)
             if debt_serializer.is_valid():
-                debt_serializer.save()
+                debt_serializer.save(user1=request.user,user2=payee)
             else:
                 return Response({
                         'status':'failed',
@@ -80,7 +78,7 @@ def payment(request):
                     },status=401) 
         return Response({
                 'message':f'{amount} payed to {payee.name}'
-            },status=200)
+            },status=201)
 
     return Response({
                 'status':'failed',
@@ -88,7 +86,7 @@ def payment(request):
             },status=402)
 
 
-@api_view(['GET'])
+@api_view(['POST'])
 @permission_classes((IsAuthenticated, ))
 @parser_classes([JSONParser])
 def splitpayment(request):
@@ -103,8 +101,8 @@ def splitpayment(request):
                 },status=403) 
     trans_data["amount"]=amount
     trans_data["reason"]=data["reason"]
-    trans_data["payer"]=request.user.id
-    print(amount)
+    # trans_data["payer"]=request.user.id
+
     for i in data['payee']:
         try:
             user=User.objects.get(phone_number=i)
@@ -121,10 +119,10 @@ def splitpayment(request):
 
     for i in user2:
         flag=0
-        trans_data["payee"]=i.id
+        # trans_data["payee"]=i.id
         serializer = TransactionSerializer(data=trans_data)
         if serializer.is_valid():
-            serializer.save()
+            serializer.save(payer=request.user,payee=i)
             try:
                 debt = Debt.objects.get(user1=request.user.id,user2=i.id)
                 debt.amount_left+=amount
@@ -140,11 +138,11 @@ def splitpayment(request):
             if(flag==2):
                 debt_data={}
                 debt_data["amount_left"]=amount
-                debt_data["user1"]=request.user.id
-                debt_data["user2"]=i.id
+                # debt_data["user1"]=request.user.id
+                # debt_data["user2"]=i.id
                 debt_serializer = DebtSerializer(data=debt_data)
                 if debt_serializer.is_valid():
-                    debt_serializer.save()
+                    debt_serializer.save(user1=request.user,user2=i)
                 else:
                     return Response({
                             'status':'failed',
@@ -158,7 +156,7 @@ def splitpayment(request):
     return Response({
                     'status':'Payment complete',
                     'message':f'{data["amount"]} split'
-                },status=200)
+                },status=201)
 
 
 @api_view(['GET'])
@@ -175,28 +173,28 @@ def frequentcontacts(request):
 def recenttransaction(request):
 
     trans = []
-    trans += Transaction.objects.filter(payer=request.user.id)
-    trans += Transaction.objects.filter(payee=request.user.id)
+    trans += Transaction.objects.filter(payer=request.user)
+    trans += Transaction.objects.filter(payee=request.user)
     trans = sorted(trans, key=operator.attrgetter('created_at'), reverse=True)
     serializer = TransactionSerializer(trans, many=True)
-    # data = []
-    # for i in serializer.data:
-    #     if(i["payer"]==request.user.id):
-    #         temp = {
-    #             "id": i["id"],   
-    #             "amount": i["amount"],
-    #             "username": i["payee"]["name"]     
-    #         }
-    #     else:
-    #         temp = {
-    #             "id": i["id"],   
-    #             "amount": -i["amount"],
-    #             "username": i["payer"]["name"]     
-    #         }
-    #     data.append(temp)
+    data = []
+    for i in serializer.data:
+        if(i["payer"]["id"]==request.user.id):
+            temp = {
+                "amount": i["amount"],
+                "username": i["payee"]["name"]     
+            }
+        else:
+            temp = {
+                "amount": -i["amount"],
+                "username": i["payer"]["name"]     
+            }
+        data.append(temp)
 
-    # return Response(data,status=201)
-    return Response(serializer.data,status=201)
+    resp = {
+        "recentTrans": data
+    }
+    return Response(resp,status=200)
 
 
 @api_view(['GET'])
@@ -204,28 +202,57 @@ def recenttransaction(request):
 @parser_classes([JSONParser])
 def splits(request):
 
-    data={}
-
-    active_pos = Debt.objects.filter(user1=request.user.id).exclude(amount_left=0)
-    serializer = DebtSerializer(active_pos, many=True)
-    data['active_pos'] = serializer.data
-    active_neg = Debt.objects.filter(user2=request.user.id).exclude(amount_left=0)
-    serializer = DebtSerializer(active_neg, many=True)
-    data['active_neg'] = serializer.data
-
-    all_splits_pos = Debt.objects.filter(user1=request.user.id)
-    serializer = DebtSerializer(all_splits_pos, many=True)
-    data['all_splits_pos'] = serializer.data
-    all_splits_neg = Debt.objects.filter(user2=request.user.id)
-    serializer = DebtSerializer(all_splits_neg, many=True)
-    data['all_splits_neg'] = serializer.data
-
     money = 0
-    money += Debt.objects.filter(user1=request.user.id).aggregate(Sum('amount_left'))['amount_left__sum']
-    money -= Debt.objects.filter(user2=request.user.id).aggregate(Sum('amount_left'))['amount_left__sum']
-    data['money'] = money # If positive then collect else pay
+    active_splits = []
+    active_pos = Debt.objects.filter(user1=request.user).exclude(amount_left=0)
+    serializer = DebtSerializer(active_pos, many=True)
+    for i in serializer.data:
+        temp={
+            "amount": i["amount_left"],
+            "username": i["user2"]["name"],
+            "userid": i["user2"]["id"]
+        }
+        active_splits.append(temp)
+        money += i["amount_left"]
 
-    return Response(data)
+    active_neg = Debt.objects.filter(user2=request.user).exclude(amount_left=0)
+    serializer = DebtSerializer(active_neg, many=True)
+    for i in serializer.data:
+        temp={
+            "amount": -i["amount_left"],
+            "username": i["user2"]["name"],
+            "userid": i["user2"]["id"]
+        }
+        active_splits.append(temp)
+        money -= i["amount_left"]
+
+    all_splits = []
+    all_splits_pos = Debt.objects.filter(user1=request.user)
+    serializer = DebtSerializer(all_splits_pos, many=True)
+    for i in serializer.data:
+        temp={
+            "amount": i["amount_left"],
+            "username": i["user2"]["name"],
+            "userid": i["user2"]["id"]
+        }
+        all_splits.append(temp)
+
+    all_splits_neg = Debt.objects.filter(user2=request.user)
+    serializer = DebtSerializer(all_splits_neg, many=True)
+    for i in serializer.data:
+        temp={
+            "amount": -i["amount_left"],
+            "username": i["user2"]["name"],
+            "userid": i["user2"]["id"]
+        }
+        all_splits.append(temp)
+
+    resp ={
+        "money": money, # If positive then collect else pay
+        "active_splits": active_splits,
+        "all_splits": all_splits
+    }
+    return Response(resp, status=200)
 
 
 @api_view(['GET'])
@@ -248,7 +275,7 @@ def split(request,pk):
 
     if(flag==2):
         return Response({
-                'message':f'User does not exist'
+                'message':f'You have no transaction history with this user'
             },status=400)
     
     data['money'] = money
@@ -258,9 +285,25 @@ def split(request,pk):
     trans += Transaction.objects.filter(payer=pk,payee=request.user.id)
     trans = sorted(trans, key=operator.attrgetter('created_at'))
     serializer = TransactionSerializer(trans, many=True)
-    data["transactions"] = serializer.data
+    trans = []
+    for i in serializer.data:
+        if(i["payer"]["id"]==request.user.id):
+            temp={
+                "head": "You paid",
+                "amount": i["amount"],
+                "reason": i["reason"]
+            }
+        else:
+            temp={
+                "head": "Paid you",
+                "amount": i["amount"],
+                "reason": i["reason"]
+            }
+        trans.append(temp)
 
-    return Response(data)
+    data["transactions"] = trans
+
+    return Response(data,status=200)
 
 
 @api_view(['GET'])
@@ -284,27 +327,32 @@ def settleup(request,pk):
     except:
         flag+=1
 
-    if(flag==2):
+    if(flag==2 or money==0):
         return Response({
-                'message':f'User does not exist'
+                'message': 'You have nothing to settle up with this user'
+            },status=400)
+    
+    try:
+        user2 = User.objects.get(id=pk)
+    except:
+        return Response({
+                'message': 'User does not exist'
             },status=400)
 
     data = {}
     data["reason"] = "Settled up"
     data["amount"] = abs(money)
-    if(money>0):
-        data["payer"] = pk
-        data["payee"] = request.user.id
-    else:
-        data["payer"] = request.user.id
-        data["payee"] = pk
-
+    
     serializer = TransactionSerializer(data=data)
     if serializer.is_valid():
-        serializer.save()
+        if(money>0):
+            serializer.save(payer=user2,payee=request.user)
+        else:
+            serializer.save(payer=request.user,payee=user2)
+        
         return Response({
-                    'message':f'All settled up'
-                },status=200)
+                    'message':f'All settled up with {user2.name}'
+                },status=201)
 
     return Response({
                 'status':'failed',
