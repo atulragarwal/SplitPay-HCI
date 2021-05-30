@@ -20,7 +20,7 @@ import operator
 
 # Create your views here.
 
-#403 200
+#404 201
 
 
 @api_view(['GET'])
@@ -41,6 +41,12 @@ def payment(request):
                     'message': f'User with the phone number {data["payee"]} does not exist'
                 },status=400) 
     data["payee"] = payee.id
+
+    if(payee.id== request.user.id):
+        return Response({
+                    'message': f'You cannot pay to yourself'
+                },status=404)
+
     serializer = TransactionSerializer(data=data)
     if serializer.is_valid():
         serializer.save()
@@ -103,6 +109,10 @@ def splitpayment(request):
         try:
             user=User.objects.get(phone_number=i)
             user2.append(user)
+            if(user.id== request.user.id):
+                return Response({
+                            'message': f'You cannot split with yourself twice'
+                        },status=404)
         except:
             return Response({
                 'status':'failed',
@@ -169,7 +179,24 @@ def recenttransaction(request):
     trans += Transaction.objects.filter(payee=request.user.id)
     trans = sorted(trans, key=operator.attrgetter('created_at'), reverse=True)
     serializer = TransactionSerializer(trans, many=True)
-    return Response(serializer.data)
+    # data = []
+    # for i in serializer.data:
+    #     if(i["payer"]==request.user.id):
+    #         temp = {
+    #             "id": i["id"],   
+    #             "amount": i["amount"],
+    #             "username": i["payee"]["name"]     
+    #         }
+    #     else:
+    #         temp = {
+    #             "id": i["id"],   
+    #             "amount": -i["amount"],
+    #             "username": i["payer"]["name"]     
+    #         }
+    #     data.append(temp)
+
+    # return Response(data,status=201)
+    return Response(serializer.data,status=201)
 
 
 @api_view(['GET'])
