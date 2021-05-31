@@ -46,11 +46,14 @@
             </div>
         </div>
         <script>
-            document.getElementById('form').addEventListener('submit', (e) =>{
-                e.preventDefault();
-            })
+            // document.getElementById('form').addEventListener('submit', (e) =>{
+            //     e.preventDefault();
+            // })
             function createUser()
             {
+                document.getElementById('form').addEventListener('submit', (e) =>{
+                e.preventDefault();
+            });
                 var userName = document.getElementById('u-name').value;
                 var userNumber = document.getElementById('u-num').value;
                 var userEmail = document.getElementById('u-email').value;
@@ -74,18 +77,7 @@
                 return res.json();
             })
             .then(data => {
-                // if(data.email[0]==="user with this email address already exists."){
-                //     alert("Email Already Taken");
-                // }
-                // else if(data.phone_number[0]==="Ensure this field has no more than 10 characters."){
-                //     alert("Phone Number Must be 10 Digits!");
-                // }
-                // else if(data.password[0]==="This password is too short. It must contain at least 8 characters."){
-                //     alert("This password is too short. It must contain at least 8 characters.");
-                // }
-                // else if(data.password[0]==="The password is too similar to the email address."){
-                //     alert("The password is too similar to the email address.");
-                // }
+                alert(data);
                 if(data.id > 0)
                 {
                     window.location.href = 'http://127.0.0.1:5500/Frontend/HTML/login.html';

@@ -27,23 +27,38 @@
     </head>
     <script>
         let tokenId = sessionStorage.getItem('userToken');
-        console.log('Token '+tokenId)
-        // fetch('http://127.0.0.1:8000/auth/djoser/users/me/',{
-        //     method: 'GET',
-        //     headers: {
-        //         'Content-Type': 'application/json',
-        //         'User-Agent': 'PostmanRuntime/7.28.0',
-        //         'Authorization': 'Token '+tokenId
-        //     },
-        // }).then(res =>{
-        //     return res.json()
-        // })
-        // .then(data => {
-        //     console.log(data);
-        //     document.getElementById('renderName').innerHTML = data.name;
-        //     document.getElementById('renderBal').innerHTML = data.balance;
-        // })
-        // .catch(error => console.log('Error'))
+        console.log('Token '+tokenId);
+        
+
+        fetch('http://127.0.0.1:8000/splitpay/splits/',{
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'User-Agent': 'PostmanRuntime/7.28.0',
+                'Authorization': 'Token '+tokenId
+            },
+        }).then(res =>{
+            return res.json()
+        })
+        .then(data => {
+            console.log(data);
+            document.getElementById(amtTotal).innerHTML = data.money;
+            var nameDisplay =  document.getElementById('displayTable');
+            var allDisplay =  document.getElementById('displayTable1');
+            
+            data.active_splits.forEach(element => {
+                console.log(element);
+                nameDisplay.innerHTML += '<tr>'+'<td>'+element.username+'</td>'+'<td>'+element.amount+'</td>'+'<td>'+
+                    '<form action="settleUp.html"  class="test" name="userSettle" onsubmit="return goSettle("'+element.userid+'")">'+'<input type="submit" value="Settle">'+
+                        '</form>'
+                    +'</td>'+'</tr>';
+            });
+
+            data.all_splits.forEach(element => {
+                allDisplay.innerHTML += '<tr>'+'<td>'+element.username+'</td>'+'<td>'+element.amount+'</td>'+'</tr>';
+            });
+        })
+        .catch(error => console.log('Error'))
     </script>
     <body>
         <div class="m-container">
@@ -53,42 +68,18 @@
             <div class="b-body">
                 <div class="u-card">
                     <!-- <div class="card-left"> -->
-                        <p id="renderName" class="card-det">You Need to Collect <i class="fas fa-rupee-sign"></i> 100</p>
+                        <p id="renderName" class="card-det">Your total balance is:<i class="fas fa-rupee-sign"></i> <span id="amtTotal"></span></p>
                     <!-- </div> -->
                 </div>
                 <h3 style="float: left;">Active Splits</h3>
-                <div class="u-img">
-                    <div class="freq-cont">
-                        <img src="../Images/atul_260x261.jpeg" class="userImage">
-                        <p class="userName">Atul</p>
-                    </div>
-                    <div class="freq-cont">
-                        <img src="../Images/atul_260x261.jpeg" class="userImage">
-                        <p class="userName">Atul</p>
-                    </div>
-                    <div class="freq-cont">
-                        <img src="../Images/atul_260x261.jpeg" class="userImage">
-                        <p class="userName">Atul</p>
-                    </div>
-                    <div class="freq-cont">
-                        <img src="../Images/atul_260x261.jpeg" class="userImage">
-                        <p class="userName">Atul</p>
-                    </div>
+                <div>
+                    <table id="displayTable">
+                    </table>
                 </div>
                 <h3>All Splits</h3>
                 <span>
-                <div class="recTrans">
-                    <img src="../Images/atul_260x261.jpeg" class="userImage"><p style="vertical-align:top;margin-left: 10px;">Atul</p><p style="vertical-align:top;float: right;">-35.00</p>
-                </div><hr>
-                <div class="recTrans">
-                    <img src="../Images/atul_260x261.jpeg" class="userImage"><p style="vertical-align:top;margin-left: 10px;">Atul</p><p style="vertical-align:top;float: right;">-35.00</p>
-                </div><hr>
-                <div class="recTrans">
-                    <img src="../Images/atul_260x261.jpeg" class="userImage"><p style="vertical-align:top;margin-left: 10px;">Atul</p><p style="vertical-align:top;float: right;">-35.00</p>
-                </div><hr>
-                <div class="recTrans">
-                    <img src="../Images/atul_260x261.jpeg" class="userImage"><p style="vertical-align:top;margin-left: 10px;">Atul</p><p style="vertical-align:top;float: right;">-35.00</p>
-                </div><hr>
+                    <table id="displayTable1">
+                    </table>
             </span>
             </div>
             <div class="bottomNav">
@@ -106,5 +97,28 @@
                 </div>
             </div>
         </div>
+        <script>
+
+            // var allDisplay =  document.getElementById('displayTable');
+            // var testData = [{username: 'atul', amount:50,userid:8}];
+            // testData.forEach(element => {
+            //     console.log(element);
+            //     allDisplay.innerHTML += '<tr>'+'<td>'+element.username+'</td>'+'<td>'+element.amount+'</td>'+'<td>'+
+            //         '<form  class="test" name="userSettle" onsubmit="return goSettle('+element.userid+')">'+'<input type="submit" value="Settle">'+
+            //             '</form>'
+            //         +'</td>'+'</tr>';
+            // });
+
+            function goSettle(userSettleId){
+                // var userSettleId = this.userSettle.value;
+                sessionStorage.setItem('userIdentity', userSettleId);
+                window.location.href = "http://127.0.0.1:5500/Frontend/HTML/settleUp.html";
+                alert(userSettleId);
+                return true;
+                sessionStorage.setItem('userIdentity', userSettleId);
+                // var settleUrl = 'http://127.0.0.1:5500/Frontend/HTML/settleUp.html';
+                window.location.href = "http://127.0.0.1:5500/Frontend/HTML/settleUp.html";
+            }
+        </script>
     </body>
 </html>

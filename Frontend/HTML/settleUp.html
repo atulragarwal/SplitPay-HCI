@@ -7,10 +7,56 @@
         <link rel="Stylesheet" href="../CSS/login.css">
         <link rel="stylesheet" href="../CSS/payments.css">
         <link rel="stylesheet" href="../CSS/settings.css">
+        <link rel="stylesheet" href="../CSS/settle.css">
         <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
         <script src="https://kit.fontawesome.com/bc6f27e589.js" crossorigin="anonymous"></script>
+        <script>
+            let tokenId = sessionStorage.getItem('userToken');
+            console.log('Token '+tokenId);
+
+            let userCode = sessionStorage.getItem('userIdentity');
+            console.log('ID: '+userCode);
+
+            fetchUrl = 'http://127.0.0.1:8000/splitpay/split/'+userCode+'/';
+            fetch(fetchUrl,{
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'User-Agent': 'PostmanRuntime/7.28.0',
+                'Authorization': 'Token '+tokenId
+            },
+        }).then(res =>{
+            return res.json()
+        })
+        .then(data => {
+            console.log(data);
+
+            document.getElementById('transBalance').innerHTML = data.money;
+
+            // let transfers= [
+            // {
+            //     "head": "Paid you",
+            //     "amount": 10000,
+            //     "reason": "lunch"
+            // },
+            // {
+            //     "head": "Paid you",
+            //     "amount": 3333,
+            //     "reason": "tickets"
+            // }
+            // ];
+
+            // let tableId = document.getElementById('friendTrans');
+
+            // transfers.forEach(element => {
+            //     console.log(element);
+            //     tableId.innerHTML += '<tr>'+'<td>'+element.head+'</td>'+'<td>'+element.amount+'</td>'+'<td>'+element.reason+'</td>'+'</tr>';
+            // });
+        })
+        .catch(error => console.log('Error'))
+        </script>
     </head>
     <body>
         <div class="m-container"  style="background-color: rgb(242,242,242);">
@@ -20,32 +66,19 @@
             <div class="userDetails">
                 <div style="height: 100px;padding-top: 20px;" class="u-card">
                     <!-- <div class="card-left"> -->
-                        <p id="renderName" class="card-det">You Need to Collect <i class="fas fa-rupee-sign"></i> 100</p>
+                        <p id="renderName" class="card-det">You Balance is: <i class="fas fa-rupee-sign"></i> <span id="transBalance"></span></p>
                     <!-- </div> -->
-                </div>
+                </div><br>
+                
             </div>
-            <!-- <div class="settingOption" style="margin-top: 25px;">
-                <div style="margin-left: 15px;font-size: 25px;">
-                    <h4><i class="fas fa-rupee-sign">35</i></h4>
-                    <p>You Received</p>
+            <div style="display: flex;justify-content: center;align-items: center;">
+                <a href="settleOptions.html" class="payButton addButton">Settle Up</a>
                 </div>
-                <a href="qrView.html" style="color: black; margin-left: auto;margin-top: 0;"><i style="margin-right: 15px; margin-left: auto;" class="fas fa-arrow-right"></i></a>
-            </div> -->
-            <div class="settingOption" style="margin-top: 25px;">
                 <div style="margin-left: 15px;font-size: 25px;">
-                    <h4 style="margin: 0;"><i class="fas fa-rupee-sign">35</i></h4>
-                    <p style="margin:0;">You Received</p>
+                    <table id="friendTrans">
+                    </table>
                 </div>
-                <p style="color: black; margin-left: auto;margin-top: 0;"><i style="margin-right: 15px; margin-left: auto;" class="fas fa-arrow-right"></i></p>
-            </div>
 
-            <div class="settingOption" style="margin-top: 25px;">
-                <div style="margin-left: 15px;font-size: 25px;">
-                    <h4 style="margin: 0;"><i class="fas fa-rupee-sign">35</i></h4>
-                    <p style="margin:0;">You Paid</p>
-                </div>
-                <p style="color: black; margin-left: auto;margin-top: 0;"><i style="margin-right: 15px; margin-left: auto;" class="fas fa-arrow-left"></i></p>
-            </div>
 
 
             <div class="bottomNav" style="background-color: white;">
@@ -63,5 +96,28 @@
                 </div>
             </div>
         </div>
+        <script>
+             let transfers= [
+            {
+                head: "Paid you",
+                amount: 10000,
+                reason: "lunch"
+            },
+            {
+                head: "Paid you",
+                amount: 3333,
+                reason: "tickets"
+            }
+        ];
+
+            let tableId = document.getElementById('friendTrans');
+
+            transfers.forEach(element => {
+                console.log(element);
+                tableId.innerHTML += '<tr>'+'<td>'+element.head+'</td>'+'<td>'+element.amount+'</td>'+'<td>'+element.reason+'</td>'+'</tr>'
+                +'<tr class="gapMaker">'+'</tr>';
+            });
+
+        </script>
     </body>
 </html>

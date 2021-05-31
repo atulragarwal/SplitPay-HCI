@@ -54,20 +54,9 @@
             }
             else{
 
-                var tryOut = [{amount: 50,
-created_at: "2021-05-30T10:13:35.611053Z",
-id: "4c92fb7e-9dd8-4879-a2e3-1a10b367a2eb",
-payee: 3,
-payer: 4,
-reason: "Fee",}, {amount: 51,
-created_at: "2021-05-30T10:13:35.611053Z",
-id: "4c92fb7e-9dd8-4879-a2e3-1a10b367a2eb",
-payee: 3,
-payer: 4,
-reason: "Fee",}];
                 var nameDisplay =  document.getElementById('displayTable');
                 var amtDisplay = document.getElementById('payAmt');
-                tryOut.forEach(element => {
+                recentTrans.forEach(element => {
                         console.log(element);
                         nameDisplay.innerHTML += '<tr>'+'<td>'+element.payee+'</td>'+'<td>'+element.amount+'</td>'+'</tr>';
                 });

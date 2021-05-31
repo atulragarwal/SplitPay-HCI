@@ -59,6 +59,7 @@
                 return res.json();
             })
             .then(data => {
+                alert(data);
                 if((data.auth_token).length > 0)
                 {
                     sessionStorage.setItem('userToken', data.auth_token);
@@ -67,7 +68,7 @@
 
                 }
                 console.log(data);})
-            .catch(error => console.log(error))
+            .catch(error => {console.log(error);alert(error)})
             }
         </script>
     </body>

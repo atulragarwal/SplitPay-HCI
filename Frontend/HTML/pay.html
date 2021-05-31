@@ -66,26 +66,7 @@
                 </div>
             </div>
         </div>
-        <script>
-
-            var splitUsers = [];
-            function addSelect(imgTag, checkTag){
-                if(document.getElementById(checkTag).checked){
-                    document.getElementById(imgTag).style.borderColor = "green";
-                }
-                else{
-                    document.getElementById(imgTag).style.borderColor = '#5c07db';
-                }
-            };
-            function addUser(){
-                let userNum = document.getElementById('numberAdd').value;
-                splitUsers.push(userNum);
-                document.getElementById('numDisplay').innerHTML = "";
-                splitUsers.forEach(element =>{
-                    document.getElementById('numDisplay').innerHTML += element+'<br>';
-                })
-            }
-        </script>
+        
         <script>
 
             let tokenId = sessionStorage.getItem('userToken');
