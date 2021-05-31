@@ -249,7 +249,8 @@
             }</script>
             <script async
               src="https://pay.google.com/gp/p/js/pay.js"
-              onload="onGooglePayLoaded()"></script>
+              onload="onGooglePayLoaded()">
+            </script>
                     </div>
                     <script>
                         const back = () =>{
@@ -274,7 +275,7 @@
                     <!-- <p>8879728598</p> -->
                 </div>
                 <div class="choiceForm">
-                    <a href="paymentComplete.html">Settle with cash.</a>
+                    <button onclick="settleUser()">Settle with cash.</button>
                     <p id="container"></p>
                 </div>
             </div>
@@ -293,5 +294,32 @@
                 </div>
             </div>
         </div>
+        <script>
+          function settleUser()
+          {
+            let tokenId = sessionStorage.getItem('userToken');
+            console.log('Token '+tokenId);
+
+            let userCode = sessionStorage.getItem('userIdentity');
+            console.log('ID: '+userCode);
+            fetchUrl = 'http://127.0.0.1:8000/splitpay/settleup/'+userCode+'/';
+            fetch(fetchUrl,{
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'User-Agent': 'PostmanRuntime/7.28.0',
+                'Authorization': 'Token '+tokenId
+            },
+        }).then(res =>{
+            return res.json()
+        })
+        .then(data => {
+            console.log(data);
+
+            window.location.href = 'http://127.0.0.1:5500/Frontend/HTML/paymentComplete.html';
+        })
+        .catch(error => console.log(error))
+      }
+        </script>
     </body>
 </html>

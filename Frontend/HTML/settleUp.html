@@ -12,51 +12,6 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
         <script src="https://kit.fontawesome.com/bc6f27e589.js" crossorigin="anonymous"></script>
-        <script>
-            let tokenId = sessionStorage.getItem('userToken');
-            console.log('Token '+tokenId);
-
-            let userCode = sessionStorage.getItem('userIdentity');
-            console.log('ID: '+userCode);
-
-            fetchUrl = 'http://127.0.0.1:8000/splitpay/split/'+userCode+'/';
-            fetch(fetchUrl,{
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'User-Agent': 'PostmanRuntime/7.28.0',
-                'Authorization': 'Token '+tokenId
-            },
-        }).then(res =>{
-            return res.json()
-        })
-        .then(data => {
-            console.log(data);
-
-            document.getElementById('transBalance').innerHTML = data.money;
-
-            // let transfers= [
-            // {
-            //     "head": "Paid you",
-            //     "amount": 10000,
-            //     "reason": "lunch"
-            // },
-            // {
-            //     "head": "Paid you",
-            //     "amount": 3333,
-            //     "reason": "tickets"
-            // }
-            // ];
-
-            // let tableId = document.getElementById('friendTrans');
-
-            // transfers.forEach(element => {
-            //     console.log(element);
-            //     tableId.innerHTML += '<tr>'+'<td>'+element.head+'</td>'+'<td>'+element.amount+'</td>'+'<td>'+element.reason+'</td>'+'</tr>';
-            // });
-        })
-        .catch(error => console.log('Error'))
-        </script>
     </head>
     <body>
         <div class="m-container"  style="background-color: rgb(242,242,242);">
@@ -97,27 +52,36 @@
             </div>
         </div>
         <script>
-             let transfers= [
-            {
-                head: "Paid you",
-                amount: 10000,
-                reason: "lunch"
+            let tokenId = sessionStorage.getItem('userToken');
+            console.log('Token '+tokenId);
+
+            let userCode = sessionStorage.getItem('userIdentity');
+            console.log('ID: '+userCode);
+
+            fetchUrl = 'http://127.0.0.1:8000/splitpay/split/'+userCode+'/';
+            fetch(fetchUrl,{
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'User-Agent': 'PostmanRuntime/7.28.0',
+                'Authorization': 'Token '+tokenId
             },
-            {
-                head: "Paid you",
-                amount: 3333,
-                reason: "tickets"
-            }
-        ];
+        }).then(res =>{
+            return res.json()
+        })
+        .then(data => {
+            console.log(data);
+
+            document.getElementById('transBalance').innerHTML = data.money;
 
             let tableId = document.getElementById('friendTrans');
 
             transfers.forEach(element => {
                 console.log(element);
-                tableId.innerHTML += '<tr>'+'<td>'+element.head+'</td>'+'<td>'+element.amount+'</td>'+'<td>'+element.reason+'</td>'+'</tr>'
-                +'<tr class="gapMaker">'+'</tr>';
+                tableId.innerHTML += '<tr>'+'<td>'+element.head+'</td>'+'<td>'+element.amount+'</td>'+'<td>'+element.reason+'</td>'+'</tr>';
             });
-
+        })
+        .catch(error => console.log(error))
         </script>
     </body>
 </html>
