@@ -17,11 +17,12 @@ class CustomRegisterSerializer(RegisterSerializer):
             'name': self.validated_data.get('name', ''),
             'phone_number': self.validated_data.get('phone_number', ''),
             'balance': self.validated_data.get('balance', ''),
+            'profile_pic': self.validated_data.get('profile_pic', ''),
         }
 
 class CustomUserDetailsSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ('email','name','phone_number','balance')
+        fields = ('email','name','phone_number','balance','profile_pic')
         read_only_fields = ('email',)

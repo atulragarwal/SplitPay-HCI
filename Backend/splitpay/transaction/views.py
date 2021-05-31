@@ -182,12 +182,14 @@ def recenttransaction(request):
         if(i["payer"]["id"]==request.user.id):
             temp = {
                 "amount": i["amount"],
-                "username": i["payee"]["name"]     
+                "username": i["payee"]["name"],
+                "profile_pic": i["payee"]["profile_pic"]
             }
         else:
             temp = {
                 "amount": -i["amount"],
-                "username": i["payer"]["name"]     
+                "username": i["payer"]["name"],  
+                "profile_pic": i["payer"]["profile_pic"] 
             }
         data.append(temp)
 
@@ -210,7 +212,8 @@ def splits(request):
         temp={
             "amount": i["amount_left"],
             "username": i["user2"]["name"],
-            "userid": i["user2"]["id"]
+            "userid": i["user2"]["id"],
+            "profile_pic": i["user2"]["profile_pic"]
         }
         active_splits.append(temp)
         money += i["amount_left"]
@@ -221,7 +224,8 @@ def splits(request):
         temp={
             "amount": -i["amount_left"],
             "username": i["user2"]["name"],
-            "userid": i["user2"]["id"]
+            "userid": i["user2"]["id"],
+            "profile_pic": i["user2"]["profile_pic"]
         }
         active_splits.append(temp)
         money -= i["amount_left"]
@@ -233,7 +237,8 @@ def splits(request):
         temp={
             "amount": i["amount_left"],
             "username": i["user2"]["name"],
-            "userid": i["user2"]["id"]
+            "userid": i["user2"]["id"],
+            "profile_pic": i["user2"]["profile_pic"]
         }
         all_splits.append(temp)
 
@@ -243,7 +248,8 @@ def splits(request):
         temp={
             "amount": -i["amount_left"],
             "username": i["user2"]["name"],
-            "userid": i["user2"]["id"]
+            "userid": i["user2"]["id"],
+            "profile_pic": i["user2"]["profile_pic"]
         }
         all_splits.append(temp)
 
@@ -260,8 +266,9 @@ def splits(request):
 @parser_classes([JSONParser])
 def split(request,pk):
 
-    data = {}
+    data = {}      
     flag=0
+    user_det={}
     try:
         debt = Debt.objects.get(user1=request.user.id,user2=pk)
         money = debt.amount_left
@@ -302,6 +309,17 @@ def split(request,pk):
         trans.append(temp)
 
     data["transactions"] = trans
+
+    for i in serializer.data:
+        if(i["payer"]["id"]==request.user.id):
+            user_det["name"] = i["payee"]["name"]
+            user_det["profile_pic"] = i["payee"]["profile_pic"]
+        else:
+            user_det["name"] = i["payer"]["name"]
+            user_det["profile_pic"] = i["payer"]["profile_pic"]
+        break
+        
+    data["user"] = user_det
 
     return Response(data,status=200)
 

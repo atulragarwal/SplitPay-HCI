@@ -11,9 +11,10 @@ class User(AbstractBaseUser):
     name = models.CharField(max_length=100)
     phone_number = models.CharField(max_length=10, unique=True)
     balance = models.IntegerField(default=0)
+    profile_pic = models.ImageField(upload_to="profile_pic")
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = [ 'phone_number','name','balance' ]
+    REQUIRED_FIELDS = [ 'phone_number','name','balance','profile_pic' ]
 
     objects = UserManager()
 
