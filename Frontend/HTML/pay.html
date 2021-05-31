@@ -12,23 +12,12 @@
         <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
         <script src="https://kit.fontawesome.com/bc6f27e589.js" crossorigin="anonymous"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-        <script>
-            $(document).ready(function(){
-                $(".hiddenToggle").slideToggle("fast");
-                $(".fa-user-plus").hover(function(){
-                    $(".fa-user-plus").css('cursor','pointer');
-                })
-                $(".fa-user-plus").click(function(){
-                    $(".hiddenToggle").slideToggle("slow");
-                });
-            });
-        </script>
 
     </head>
     <body>
         <div class="m-container">
             <div class="b-head">
-                <i class="fas fa-arrow-left"></i><i style="float: right; margin-right: 10px;" class="far fa-question-circle"></i><br>
+                <a href="home.html"><i class="fas fa-arrow-left"></i><i style="float: right; margin-right: 10px;" class="far fa-question-circle"></i></a><br>
                 <h3>Now Paying</h3>
             </div>
             <div class="paymentForm">
@@ -39,15 +28,7 @@
                     <label for="paymentAmt">Enter Amount</label><br>
                     <input class="amtInput" id="paymentAmt" type="number" required placeholder="Rs.XX.XX"><br><br>
                     <label for="paymentNote">Enter Note</label><br>
-                    <input class="amtInput" id="paymentNote" type="text" required placeholder="Note">
-                    <p id="splitOption">Splitting this payment</p>
-                    <i style="margin-left: 80px;" class="fas fa-user-plus"></i>
-                    <div class="hiddenToggle">
-                    <label for="numberAdd">Enter Number:</label>
-                    <input type="tel" placeholder="Split with" id="numberAdd" class="amtInput">
-                    <button style="font-size: 25px;" onclick="addUser()">Add</button>
-                    <p id="numDisplay"></p>
-                    </div>
+                    <input class="amtInput" id="paymentNote" type="text" required placeholder="Note"><br><br>
                     <input value="Pay" type="submit">
                 </form>
             </div>
