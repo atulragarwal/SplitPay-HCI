@@ -25,41 +25,6 @@
             }
         </style>
     </head>
-    <script>
-        let tokenId = sessionStorage.getItem('userToken');
-        console.log('Token '+tokenId);
-        
-
-        fetch('http://127.0.0.1:8000/splitpay/splits/',{
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'User-Agent': 'PostmanRuntime/7.28.0',
-                'Authorization': 'Token '+tokenId
-            },
-        }).then(res =>{
-            return res.json()
-        })
-        .then(data => {
-            console.log(data);
-            document.getElementById(amtTotal).innerHTML = data.money;
-            var nameDisplay =  document.getElementById('displayTable');
-            var allDisplay =  document.getElementById('displayTable1');
-            
-            data.active_splits.forEach(element => {
-                console.log(element);
-                nameDisplay.innerHTML += '<tr>'+'<td>'+element.username+'</td>'+'<td>'+element.amount+'</td>'+'<td>'+
-                    '<form action="settleUp.html"  class="test" name="userSettle" onsubmit="return goSettle("'+element.userid+'")">'+'<input type="submit" value="Settle">'+
-                        '</form>'
-                    +'</td>'+'</tr>';
-            });
-
-            data.all_splits.forEach(element => {
-                allDisplay.innerHTML += '<tr>'+'<td>'+element.username+'</td>'+'<td>'+element.amount+'</td>'+'</tr>';
-            });
-        })
-        .catch(error => console.log('Error'))
-    </script>
     <body>
         <div class="m-container">
             <div class="b-head">
@@ -98,6 +63,40 @@
             </div>
         </div>
         <script>
+            
+            let tokenId = sessionStorage.getItem('userToken');
+            console.log('Token '+tokenId);
+            
+    
+            fetch('http://127.0.0.1:8000/splitpay/splits/',{
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'User-Agent': 'PostmanRuntime/7.28.0',
+                    'Authorization': 'Token '+tokenId
+                },
+            }).then(res =>{
+                return res.json()
+            })
+            .then(data => {
+                console.log(data);
+                document.getElementById("amtTotal").innerHTML = data.money;
+                var nameDisplay =  document.getElementById('displayTable');
+                var allDisplay =  document.getElementById('displayTable1');
+                
+                data.active_splits.forEach(element => {
+                    console.log(element);
+                    nameDisplay.innerHTML += '<tr>'+'<td>'+element.username+'</td>'+'<td>'+element.amount+'</td>'+'<td>'+
+                        '<form action="settleUp.html"  class="test" name="userSettle" onsubmit="return goSettle('+element.userid+')">'+'<input type="submit" value="Settle">'+
+                            '</form>'
+                        +'</td>'+'</tr>';
+                });
+    
+                data.all_splits.forEach(element => {
+                    allDisplay.innerHTML += '<tr>'+'<td>'+element.username+'</td>'+'<td>'+element.amount+'</td>'+'</tr>';
+                });
+            })
+            .catch(error => console.log(error))
 
             // var allDisplay =  document.getElementById('displayTable');
             // var testData = [{username: 'atul', amount:50,userid:8}];
