@@ -56,9 +56,9 @@
 
                 var nameDisplay =  document.getElementById('displayTable');
                 var amtDisplay = document.getElementById('payAmt');
-                recentTrans.forEach(element => {
+                recentTrans.recentTrans.forEach(element => {
                         console.log(element);
-                        nameDisplay.innerHTML += '<tr>'+'<td>'+element.payee+'</td>'+'<td>'+element.amount+'</td>'+'</tr>';
+                        nameDisplay.innerHTML += '<tr>'+'<td>'+element.username+'</td>'+'<td>'+element.amount+'</td>'+'</tr>';
                 });
             }
         })
