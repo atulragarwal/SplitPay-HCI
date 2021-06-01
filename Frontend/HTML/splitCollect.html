@@ -23,6 +23,15 @@
                 margin-right: auto;
                 margin-top: 20px;
             }
+            #displayTable{
+                width: 100%;
+            }
+            #displayTable > tr{
+                width:100%;
+            }
+            tr{
+                outline: 1px solid;
+            }
         </style>
     </head>
     <body>
@@ -37,7 +46,7 @@
                     <!-- </div> -->
                 </div>
                 <h3 style="float: left;">Active Splits</h3>
-                <div>
+                <div style="width: 95%;margin-left: auto;margin-right: auto;">
                     <table id="displayTable">
                     </table>
                 </div>
@@ -47,7 +56,7 @@
                     </table>
             </span>
             </div>
-            <div class="bottomNav">
+            <div class="bottomNav" style="background-color: rgb(242,242,242);">
                 <div class="paymentOption">
                     <i class="fas fa-money-bill-wave-alt"></i>
                     <p><a href="home.html">Payments</a></p>
@@ -90,7 +99,7 @@
                 });
     
                 data.all_splits.forEach(element => {
-                    allDisplay.innerHTML += '<tr>'+'<td>'+element.username+'</td>'+'<td>'+element.amount+'</td>'+'</tr>';
+                    allDisplay.innerHTML += '<tr>'+'<td>'+'<img width="25px" height="25px" src='+'http://127.0.0.1:8000'+element.profile_pic+'>'+'</td>'+'<td>'+element.username+'</td>'+'<td>'+element.amount+'</td>'+'</tr>';
                 });
             })
             .catch(error => console.log(error))
@@ -109,7 +118,7 @@
                 // var userSettleId = this.userSettle.value;
                 sessionStorage.setItem('userIdentity', userSettleId);
                 window.location.href = "http://127.0.0.1:5500/Frontend/HTML/settleUp.html";
-                alert(userSettleId);
+                // alert(userSettleId);
                 return true;
                 sessionStorage.setItem('userIdentity', userSettleId);
                 // var settleUrl = 'http://127.0.0.1:5500/Frontend/HTML/settleUp.html';

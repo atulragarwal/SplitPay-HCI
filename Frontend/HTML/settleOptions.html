@@ -23,6 +23,13 @@
                 justify-content: center;
                 align-items: center;
             }
+            button{
+              border: 3px solid #5c07db;
+              border-radius: 5px;
+              width: 200px;
+              height: 50px;
+              font-size: 20px;
+            }
         </style>
         <script>
             /**
@@ -264,7 +271,7 @@
                     </script>
     </head>
     <body>
-        <div class="m-container"  style="background-color: rgb(242,242,242);">
+        <div class="m-container">
             <div class="b-head">
                 <h3 style="display: inline-block; font-size: 40px;margin-left: 15px;">Settling Up</h3>
             </div>
@@ -279,20 +286,20 @@
                     <p id="container"></p>
                 </div>
             </div>
-            <div class="bottomNav" style="background-color: white;">
-                <div class="paymentOption">
-                    <i class="fas fa-money-bill-wave-alt"></i>
-                    <p>Payments</p>
-                </div>
-                <div class="paymentOption">
-                    <i class="fas fa-chart-pie"></i>
-                    <p>Splits</p>
-                </div>
-                <div class="paymentOption">
-                    <i class="fas fa-cog"></i>
-                    <p>Settings</p>
-                </div>
-            </div>
+            <div class="bottomNav" style="background-color: rgb(242,242,242);">
+              <div class="paymentOption">
+                  <i class="fas fa-money-bill-wave-alt"></i>
+                  <p><a href="home.html">Payments</a></p>
+              </div>
+              <div class="paymentOption">
+                  <i class="fas fa-chart-pie"></i>
+                  <p><a href="splitCollect.html">Splits</a></p>
+              </div>
+              <div class="paymentOption">
+                  <i class="fas fa-cog"></i>
+                  <p><a href="userSettings.html">Settings</a></p>
+              </div>
+          </div>
         </div>
         <script>
           function settleUser()
