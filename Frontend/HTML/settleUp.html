@@ -76,7 +76,7 @@
 
             let tableId = document.getElementById('friendTrans');
 
-            data.forEach(element => {
+            data.transactions.forEach(element => {
                 console.log(element);
                 tableId.innerHTML += '<tr>'+'<td>'+element.head+'</td>'+'<td>'+element.amount+'</td>'+'<td>'+element.reason+'</td>'+'</tr>';
             });
