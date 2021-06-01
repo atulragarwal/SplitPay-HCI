@@ -270,12 +270,18 @@ def split(request,pk):
     flag=0
     user_det={}
     try:
-        debt = Debt.objects.get(user1=request.user.id,user2=pk)
+        user2 = User.objects.get(id=pk)
+    except:
+        return Response({
+                'message':f'This user does not exists'
+            },status=400)
+    try:
+        debt = Debt.objects.get(user1=request.user,user2=user2)
         money = debt.amount_left
     except:
         flag+=1
     try:
-        debt = Debt.objects.get(user1=pk,user2=request.user.id)
+        debt = Debt.objects.get(user1=user2,user2=request.user)
         money = -debt.amount_left
     except:
         flag+=1
