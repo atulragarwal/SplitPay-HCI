@@ -79,11 +79,11 @@
                 recentTrans.recentTrans.forEach(element => {
                         console.log(element);
                         if(element.amount<0){
-                            nameDisplay.innerHTML += '<tr>'+'<td>'+'<img class="imgEdit" src='+'http://127.0.0.1:8000'+element.profile_pic+'>'+'</td>'+'<td>'+element.username+'</td>'+'<td class="payDue">'+element.amount+'</td>'+'</tr>'+'<tr class="rowGap">'+'<td></td><td></td>'+'</tr>';
+                            nameDisplay.innerHTML += '<tr>'+'<td>'+'<img class="imgEdit" width="50px" height="50px" src='+'http://127.0.0.1:8000'+element.profile_pic+'>'+'</td>'+'<td>'+element.username+'</td>'+'<td class="payDue">'+element.amount+'</td>'+'</tr>'+'<tr class="rowGap">'+'<td></td><td></td>'+'</tr>';
                         }
 
                         else{
-                            nameDisplay.innerHTML += '<tr>'+'<td>'+'<img width="25px" height="25px" src='+'http://127.0.0.1:8000'+element.profile_pic+'>'+'</td>'+'<td>'+element.username+'</td>'+'<td class="payGet">'+element.amount+'</td>'+'</tr>'+'<tr class="rowGap">'+'<td></td><td></td>'+'</tr>';
+                            nameDisplay.innerHTML += '<tr>'+'<td>'+'<img class="imgEdit" width="50px" height="50px" src='+'http://127.0.0.1:8000'+element.profile_pic+'>'+'</td>'+'<td>'+element.username+'</td>'+'<td class="payGet">'+element.amount+'</td>'+'</tr>'+'<tr class="rowGap">'+'<td></td><td></td>'+'</tr>';
                         }
                         
                 });
