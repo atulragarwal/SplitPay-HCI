@@ -56,12 +56,15 @@
                 return res.json();
             })
             .then(data => {
-                if((data.auth_token).length > 0)
+
+                if(data.auth_token === undefined){
+                    alert("It Seems your data was incorrect. Retry or go SignUp");
+                }
+                else
                 {
                     sessionStorage.setItem('userToken', data.auth_token);
                     console.log('Success');
                     window.location.href = 'http://127.0.0.1:5500/Frontend/HTML/home.html';
-
                 }
                 console.log(data);})
             .catch(error => console.log(error))

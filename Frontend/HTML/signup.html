@@ -41,7 +41,7 @@
                     <input class="userPassword" id="u-pass-1" required placeholder="Confirm Password" type="password">
                     <label id="lab-bef" style="color: black;" for="avatar"><i class="fas fa-images"></i>Add Image</label>
                     <input required type="file" id="avatar" style="display: none;" onchange="dispimg(event)" name="profile_pic"accept="image/png, image/jpeg">
-                    <img src="" id="img-af" width="50px" height="50px" style="display: none;">
+                    <img accept="image/*" src="" id="img-af" width="50px" height="50px" style="display: none;">
                     <!-- <a href="#">Forgot Password</a> -->
                     <input type="submit" value="Continue">
                 </form>
@@ -72,6 +72,19 @@
                 var userEmail = document.getElementById('u-email').value;
                 var userPassword = document.getElementById('u-pass').value;
                 var passwordConfirm = document.getElementById('u-pass-1').value;
+
+                if(userPassword !== passwordConfirm){
+                    alert('Passwords must Match!!');
+                    return false;
+                }
+                if((/[0-9]/.test(userName))){
+                    alert('Your name can only contain letters!');
+                    return false;
+                }
+                if(!(/[0-9]/.test(userPassword))){
+                    alert("For your safety, you must add digits in your password.");
+                    return false;
+                }
 
                 var formData = new FormData();
 
