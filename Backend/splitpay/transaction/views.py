@@ -33,14 +33,14 @@ def payment(request):
     if(amount<1):
         return Response({
                     'message': f'Amount has to be greater than 1'
-                },status=403) 
+                },status=403)
 
     try:
         payee = User.objects.get(phone_number=data["payee"])
     except:
         return Response({
                     'message': f'User with the phone number {data["payee"]} does not exist'
-                },status=400) 
+                },status=400)
 
     if(payee.id== request.user.id):
         return Response({

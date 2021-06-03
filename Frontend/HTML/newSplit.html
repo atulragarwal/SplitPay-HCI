@@ -28,7 +28,7 @@
     <body>
         <div class="m-container">
             <div class="b-head">
-                <a href="home.html"><i class="fas fa-arrow-left"></i><i style="float: right; margin-right: 10px;" class="far fa-question-circle"></i></a><br>
+                <a href="home.html"><i class="fas fa-arrow-left"></i></a><a style="float: right;" href="https://docs.google.com/document/d/1XRGH7iECFYXqqP-rYERKpPSdEJZUMrsEKaR2Om5JhM0/edit?usp=sharing"><i class="far fa-question-circle"></i></a><br>
                 <h3>Now Paying</h3>
             </div>
             <div class="paymentForm">
@@ -74,6 +74,10 @@
                 e.preventDefault();
                 });
                 let userNum = document.getElementById('numberAdd').value;
+                if(userNum.length != 10){
+                    alert("Invalid Phone Number Format.");
+                    return false;
+                }
                 splitUsers.push(userNum);
                 document.getElementById('numDisplay').innerHTML = "";
                 // userNum.value = "";
@@ -95,8 +99,19 @@
                 document.getElementById('paymentDetailsForm').addEventListener('submit', (e) =>{
                 e.preventDefault();
             });
+            let statusCheck = 'true';
             let payAmt = document.getElementById("paymentAmt").value;
             let payNote = document.getElementById('paymentNote').value;
+
+            if(payAmt <= 1){
+                alert('Amount Must be greater than 0');
+                return false;
+            }
+
+            if(splitUsers.length == 0){
+                alert ("You need to add another user to split the amount with.");
+                return false;
+            }
 
             fetch('http://127.0.0.1:8000/splitpay/splitpayment/',{
                 // mode:'no-cors',
@@ -112,9 +127,20 @@
                     "payee": splitUsers
                 })
             }).then(res =>{
-                return res.json();
+                let resStatus = res.status;
+                if((resStatus==200) || (resStatus==201)){
+                return res.json();}
+                else{
+                    statusCheck = 'false';
+                    return res.json();
+                }
             })
             .then(data => {
+                console.log(data);
+                if(statusCheck === 'false'){
+                    alert(data.message);
+                    return false;
+                }
                 window.location.href = 'http://127.0.0.1:5500/Frontend/HTML/home.html';
                 console.log(data);})
             .catch(error => {
