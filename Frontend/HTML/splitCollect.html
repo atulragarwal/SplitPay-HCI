@@ -105,7 +105,6 @@
                 document.getElementById("amtTotal").innerHTML = data.money;
                 var nameDisplay =  document.getElementById('displayTable');
                 var allDisplay =  document.getElementById('displayTable1');
-                
                 data.active_splits.forEach(element => {
                     console.log(element);
                     nameDisplay.innerHTML += '<tr>'+'<td>'+element.username+'</td>'+'<td>'+element.amount+'</td>'+'<td>'+
@@ -113,7 +112,6 @@
                             '</form>'
                         +'</td>'+'</tr>'+'<tr class="rowGap">'+'<td></td><td></td>'+'</tr>';
                 });
-    
                 data.all_splits.forEach(element => {
                     allDisplay.innerHTML += '<tr>'+'<td>'+'<img class="imgEdit" src='+'http://127.0.0.1:8000'+element.profile_pic+'>'+'</td>'+'<td>'+element.username+'</td>'+'<td>'+element.amount+'</td>'+'</tr>'+'<tr class="rowGap">'+'<td></td><td></td>'+'</tr>';
                 });
@@ -135,7 +133,6 @@
                 sessionStorage.setItem('userIdentity', userSettleId);
                 window.location.href = "http://127.0.0.1:5500/Frontend/HTML/settleUp.html";
                 // alert(userSettleId);
-                return true;
                 sessionStorage.setItem('userIdentity', userSettleId);
                 // var settleUrl = 'http://127.0.0.1:5500/Frontend/HTML/settleUp.html';
                 window.location.href = "http://127.0.0.1:5500/Frontend/HTML/settleUp.html";
